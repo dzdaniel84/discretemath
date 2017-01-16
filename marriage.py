@@ -9,7 +9,6 @@ class Simulation:
 		while notOptimal(self):
 			[b.propose() for b in self.boys]
 			[g.consider() for g in self.girls]
-			[b.evaluate() for b in self.boys]
 
 	def rank(self, person):
 		if Type(person) == Boy:
@@ -26,27 +25,44 @@ class Simulation:
 			return self.girls[ord(char)-49]
 		return self.boys[ord(char)-97]
 
-class Person:
+class Boy:
 
 	def __init__(self, sim, name):
 		self.wishlist = sim.rank(self);
 
-	def propose():
+	def propose(self):
+		self.wishlist[0].suitors.append(self)
 
-	def consider():
+	def remove(self, other):
+		if other == self.wishlist[0]
+			self.wishlist.pop(0)
 
-	def evaluate():
+	def __repr__():
+		return self.name
 
-class Boy(Person):
-	optimal = True
+class Girl:
 
-class Girl(Person):
-	optimal = False
+	def __init__(self, sim, name):
+		self.wishlist = sim.rank(self);
+		self.suitors = []
+
+	def consider(self):
+		if len(self.suitors) == 0:
+			return
+		best_suitor = max([self.wishlist.index(s) for s in self.suitors])
+		for s in self.suitors:
+			if s != self.suitors[best_suitor]
+				s.remove(self)
+		print(self)
+
+	def __repr__():
+		return self.name
 
 def numbers(sim, n):
-	return [Person(sim, str(i)) for i in range(1, n+1)]
+	return [Boy(sim, str(i)) for i in range(1, n+1)]
 
 def letters(sim, n):
-	return [Person(sim, chr(i+96)) for i in range(1, n+1)]
+	return [Girl(sim, chr(i+96)) for i in range(1, n+1)]
 
 def notOptimal(sim):
+	pass
