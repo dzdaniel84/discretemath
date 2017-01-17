@@ -10,9 +10,10 @@ class Simulation:
 
 	def run(self):
 		print(self.boys, self.girls)
-		for i in range(5):
+		optimal = True
+		while optimal:
 			[b.propose() for b in self.boys]
-			[g.consider() for g in self.girls]
+			optimal = all([g.consider() for g in self.girls])
 			self.day += 1
 
 	def rank(self, person):
@@ -34,7 +35,6 @@ class Boy:
 
 	def __init__(self, sim, name):
 		self.sim, self.name = sim, name
-		self.suitors = []
 
 	def createList(self):
 		self.wishlist = self.sim.rank(self);
@@ -64,13 +64,11 @@ class Girl:
 		print("Current list of suitors for {}: {}".format(self, self.suitors))
 		if len(self.suitors) == 0:
 			print("No suitors yet for {}. Moving on.".format(self))
-			return
-		best_suitor = max([self.wishlist.index(s) for s in self.suitors])
-		for s in self.suitors:
-			if s != self.wishlist[best_suitor]:
-				s.remove(self)
-		self.suitors = []
-		print("{} selects {} to move on to the next round.".format(self, self.wishlist[best_suitor]))
+			return False
+		best_suitor = max(self.suitors, key = lambda suitor: self.wishlist.index(suitor)) #can simplify more
+		self.suitors = [best_suitors]
+		print("{} selects {} to move on to the next round.".format(self, best_suitor))
+		return True
 
 	def __repr__(self):
 		return self.name
@@ -80,8 +78,5 @@ def numbers(sim, n):
 
 def letters(sim, n):
 	return [Girl(sim, chr(i+96)) for i in range(1, n+1)]
-
-def notOptimal(sim):
-	return False
 
 Simulation(3).run()
