@@ -17,7 +17,8 @@ class Simulation:
 			[b.propose() for b in self.boys]
 			optimal = not all([g.consider() for g in self.girls])
 			self.day += 1
-		print("\n\n")
+		print("\n\nWe have reached a stable configuration, since all males and all females have been paired. " + \
+			"These are the final pairings: \n" + "\n".join(["{} and {}".format(g, g.suitors[0]) for g in self.girls]) + "\n\n")
 
 	def rank(self, person):
 		if type(person) == Boy:
@@ -95,4 +96,9 @@ def numbers(sim, n):
 def letters(sim, n):
 	return [Girl(sim, chr(i+96)) for i in range(1, n+1)]
 
-Simulation(9).run()
+def run():
+	while True:
+		c = input("How many boys/girls do you want paired up? ")
+		Simulation(int(c)).run()
+
+run()

@@ -41,7 +41,7 @@ class Graph:
 
    def __repr__(self):
        return ' '.join(str(n.degree) for n in self.nodes) + "\n" + \
-       '\n'.join([str(n.name) + ":" + " ".join([str(c.name) for c in n.adj]) for n in self.nodes])
+       '\n'.join([str(n.name) + ":\t" + " ".join([str(c.name) for c in n.adj]) for n in self.nodes])
 
 def generate_dot(g):
   s = 'graph g {\n'
@@ -94,4 +94,4 @@ def generate(n):
 
   return g
 
-print(generate_dot(generate(7)))
+print(generate_dot(generate(20)))
