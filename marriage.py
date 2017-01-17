@@ -61,7 +61,7 @@ class Girl:
 		self.wishlist = self.sim.rank(self);
 
 	def consider(self):
-		print("Current list of suitors for {}: {}".format(self.suitors, self))
+		print("Current list of suitors for {}: {}".format(self, self.suitors))
 		if len(self.suitors) == 0:
 			print("No suitors yet for {}. Moving on.".format(self))
 			return
@@ -69,6 +69,7 @@ class Girl:
 		for s in self.suitors:
 			if s != self.wishlist[best_suitor]:
 				s.remove(self)
+		self.suitors = []
 		print("{} selects {} to move on to the next round.".format(self, self.wishlist[best_suitor]))
 
 	def __repr__(self):
