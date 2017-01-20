@@ -3,6 +3,14 @@ To run, type 'python3 nodes.py  > g.dot && dot -Tsvg g.dot -o g.svg && open -a "
 in Terminal
 '''
 
+"""
+To do list:
+#Split display code and generate code for each graph
+#Create a splice algorithm
+#Create a tour algorithm
+#Animate GIF of Eulerian tour algorithm
+"""
+
 import random
 
 class Node:
