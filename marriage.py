@@ -17,6 +17,8 @@ class Simulation:
 			[b.propose() for b in self.boys]
 			optimal = not all([g.consider() for g in self.girls])
 			self.day += 1
+			for boy in self.boys:
+				print(boy.print_status())
 		print("\n\nWe have reached a stable configuration, since all males and all females have been paired. " + \
 			"These are the final pairings: \n" + "\n".join(["{} and {}".format(g, g.suitors[0]) for g in self.girls]) + "\n\n")
 
@@ -51,7 +53,8 @@ class Boy:
 		self.sim, self.name = sim, name
 
 	def createList(self):
-		self.wishlist = self.sim.rank(self);
+		self.wishlist = self.sim.rank(self)
+		self.oldlist = self.wishlist[:]
 
 	def propose(self):
 		print("{} proposed to {}.".format(self, self.wishlist[0]))
@@ -62,8 +65,18 @@ class Boy:
 		if other == self.wishlist[0]:
 			self.wishlist.pop(0)
 
+	def print_status(self):
+		lst = repr(self) + ":\t"
+		for girl in self.oldlist:
+			if girl not in self.wishlist:
+				lst += red(girl) + " "
+			elif girl == self.wishlist[0]:
+				lst += bold(girl) + " "
+			else:
+				lst += repr(girl) + " "
+		return lst
+
 	def __repr__(self):
-		#return " "*(((self.sim.n//10) + 1)-(int(self.name)//10)) + str(self.name)
 		return self.name
 
 class Girl:
@@ -74,6 +87,7 @@ class Girl:
 
 	def createList(self):
 		self.wishlist = self.sim.rank(self);
+		self.oldlist = self.wishlist[:]
 
 	def consider(self):
 		if len(self.suitors) == 0:
@@ -89,6 +103,12 @@ class Girl:
 
 	def __repr__(self):
 		return self.name
+
+def bold(str):
+    return '\033[1m{}\033[0m'.format(str)
+
+def red(str):
+    return '\033[91m{}\033[0m'.format(str)
 
 def numbers(sim, n):
 	return [Boy(sim, str(i)) for i in range(1, n+1)]
