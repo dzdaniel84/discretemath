@@ -2,12 +2,22 @@ import random
 
 class Simulation:
 	
-	def __init__(self, n):
-		self.n = n
-		self.boys, self.girls = numbers(self, n), letters(self, n)
-		[b.createList() for b in self.boys]
-		[g.createList() for g in self.girls]
-		self.day = 0
+	def __init__(self, arg):
+		if type(arg) == int:
+			self.n = arg
+			self.boys, self.girls = numbers(self, self.n), letters(self, self.n)
+			[b.createList() for b in self.boys]
+			[g.createList() for g in self.girls]
+			self.day = 0
+		else:
+			with open(arg, 'r') as f:
+				self.n = int(f.readline())
+				self.boys, self.girls = numbers(self, self.n), letters(self, self.n)
+				for b in self.boys:
+					b.parseList(f.readline())
+				for g in self.girls:
+					g.parseList(f.readline())
+				self.day = 0
 
 	def run(self):
 		self.table()
@@ -56,6 +66,13 @@ class Boy:
 		self.wishlist = self.sim.rank(self)
 		self.oldlist = self.wishlist[:]
 
+	def parseList(self, line):
+		self.wishlist = []
+		line = line.split(' ')[1:self.sim.n+1]
+		for girl in line:
+			self.wishlist.append(self.sim.find(girl))
+		self.oldlist = self.wishlist[:]
+
 	def propose(self):
 		print("{} proposed to {}.".format(self, self.wishlist[0]))
 		self.wishlist[0].suitors.append(self)
@@ -89,6 +106,13 @@ class Girl:
 		self.wishlist = self.sim.rank(self);
 		self.oldlist = self.wishlist[:]
 
+	def parseList(self, line):
+		self.wishlist = []
+		line = line.split(' ')[1:self.sim.n+1]
+		for boy in line:
+			self.wishlist.append(self.sim.find(boy))
+		self.oldlist = self.wishlist[:]
+
 	def consider(self):
 		if len(self.suitors) == 0:
 			print("No suitors yet for {}. Moving on.".format(self))
@@ -117,8 +141,16 @@ def letters(sim, n):
 	return [Girl(sim, chr(i+96)) for i in range(1, n+1)]
 
 def run():
+	print(chr(27) + "[2J")
 	while True:
-		c = input("How many boys/girls do you want paired up? ")
-		Simulation(int(c)).run()
+		c = input("Do you have a text file to run? (Y/n) " + bold('> '))
+		if (c == 'y' or c == 'Y'):
+			c = input("Please enter the location of the file here: " + bold('> '))
+			Simulation(c).run()
+		else:
+			c = input("How many boys/girls do you want paired up? " + bold('> '))
+			Simulation(int(c)).run()
+	c = input("Simulation terminated. Please press any key to continue.\n")
+	print(chr(27) + "[2J")
 
 run()
