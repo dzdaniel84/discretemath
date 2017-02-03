@@ -1,16 +1,20 @@
+import math
+
 def gcd(x, y):
-	print("Current iteration: {}, {}".format(x, y))
-	if !y:
-		print("We have calculated the gcd to be {}.".format(x))
+	if y == 0:
+		print("Since y = 0, we conclude that the gcd is {}.".format(x))
 		return x
-	print("{} % {} is {}.".format(x, y, x % y))
+	print("Given x = {} and y = {}, we set the new x to be {} and the new y to be {} % {} = {}".format(x, y, y, x, y, x % y))
 	return gcd(y, x % y)
 
 def extended_gcd(x, y):
-	if !y:
-		print(x, 1, 0)
+	if y == 0:
 		return (x, 1, 0)
 	else:
+		print("Given x = {} and y = {}, we now calculate extended_gcd on {}, {} % {} = {}\n"\
+			.format(x, y, y, x, y, x % y))
 		d, a, b = extended_gcd(y, x % y)
-		print(d, b, a - (x // y) % b)
-		return (d, b, a - (x // y) * b)
+		print("We have deduced that d = {}, a = {}, and b = {} for x = {}, y = {}."\
+			.format(d, b, a - math.floor(x/y) * b, x, y))
+		print("\t{} = {}*{} + {}*{}\n".format(d, a, x, b, y))
+		return (d, b, a - math.floor(x/y) * b)
