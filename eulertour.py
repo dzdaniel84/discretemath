@@ -1,5 +1,5 @@
 '''
-To run, type 'python3 nodes.py  > g.dot && dot -Tsvg g.dot -o g.svg && open -a "Google Chrome" g.svg'
+To run, type 'python3 eulertour.py  > g.dot && dot -Tsvg g.dot -o g.svg && open -a "Google Chrome" g.svg'
 in Terminal
 '''
 
@@ -102,4 +102,4 @@ def generate(n):
 
   return g
 
-print(generate_dot(generate(20)))
+print(generate_dot(generate(100)))
