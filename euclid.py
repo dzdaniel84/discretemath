@@ -18,3 +18,8 @@ def extended_gcd(x, y):
 			.format(d, b, a - math.floor(x/y) * b, x, y))
 		print("\t{} = {}*{} + {}*{}\n".format(d, a, x, b, y))
 		return (d, b, a - math.floor(x/y) * b)
+
+def run():
+	str = input("Please input x and y (separate with a space): ").split(' ')
+	x, y = str[0], str[1]
+	extended_gcd(x, y)
