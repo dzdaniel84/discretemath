@@ -27,9 +27,11 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+#To do: fix issues with parsing
+
 import string, random
 
-chars = {'ALL': '∀', 'EXISTS': '∃', 'EQUALS': '≡', 'AND': '∧', 'OR': '∨', 'NOT': '¬'}
+chars = {'ALL': '∀', 'EXISTS': '∃', 'EQUALS': '≡', 'AND': '∧', 'OR': '∨', 'NOT': '¬', 'IMPLIES': '>'}
 default = {'n': 3, 'depth': 0}
 commands = {
 'about' : 'Prints more information about this program.',
@@ -152,6 +154,12 @@ class And(BinaryOp):
 
     def __call__(self, values):
         return self.left(values) and self.right(values)
+
+class Implies(BinaryOp):
+    symbol = chars['IMPLIES']
+
+    def __call__(self, values):
+        return (not self.left(values)) or self.right(values)
 
 class Quantifier(Prop):
     char = ""
